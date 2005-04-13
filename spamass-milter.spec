@@ -6,7 +6,7 @@ License:	GPL
 Group:		System Environment/Daemons
 Source0:	http://savannah.nongnu.org/download/spamass-milt/%{name}-%{version}.tar.gz
 # Source0-md5:	ced600331a0df7609fdbdf0e6d0eb943
-Source1:        %{name}.init
+Source1:	%{name}.init
 URL:		http://savannah.gnu.org/projects/spamass-milt/
 BuildRequires:	libstdc++-devel
 BuildRequires:	sendmail-devel
@@ -18,9 +18,9 @@ Requires:	sendmail
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-A little plugin for the Sendmail Milter (Mail Filter) library that pipes all
-incoming mail (including things received by rmail/UUCP) through the
-SpamAssassin, a highly customizable SpamFilter.
+A little plugin for the Sendmail Milter (Mail Filter) library that
+pipes all incoming mail (including things received by rmail/UUCP)
+through the SpamAssassin, a highly customizable SpamFilter.
 
 %prep
 %setup -q
@@ -46,17 +46,17 @@ rm -rf $RPM_BUILD_ROOT
 chkconfig --add spamass-milter
 
 if [ -f /var/lock/subsys/spamass-milter ]; then
-    /etc/rc.d/init.d/spamass-milter restart >&2
+	/etc/rc.d/init.d/spamass-milter restart >&2
 else
-    echo "Run \"/etc/rc.d/init.d/spamass-milter start\" to start spamass-milter daemon." >&2
+	echo "Run \"/etc/rc.d/init.d/spamass-milter start\" to start spamass-milter daemon." >&2
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-        if [ -f /var/lock/subsys/spamass-milter ]; then
-            /etc/rc.d/init.d/spamass-milter stop >&2
-        fi
-    /sbin/chkconfig --del spamass-milter
+	if [ -f /var/lock/subsys/spamass-milter ]; then
+		/etc/rc.d/init.d/spamass-milter stop >&2
+	fi
+	/sbin/chkconfig --del spamass-milter
 fi
 
 %files
