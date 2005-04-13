@@ -1,4 +1,5 @@
 Summary:	Spamassassin Milter
+Summary(pl):	Milter dla Spamassassina
 Name:		spamass-milter
 Version:	0.3.0
 Release:	0.1
@@ -12,6 +13,8 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	sendmail-devel
 BuildRequires:	spamassassin
 BuildRequires:	spamassassin-spamc
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 Requires:	spamassassin
 # Requires sendmail to have milter support, too.
 Requires:	sendmail
@@ -21,6 +24,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 A little plugin for the Sendmail Milter (Mail Filter) library that
 pipes all incoming mail (including things received by rmail/UUCP)
 through the SpamAssassin, a highly customizable SpamFilter.
+
+%description -l pl
+Ma³a wtyczka dla biblioteki Sendmail Milter (Mail Filter)
+przepuszczaj±ca ca³± przychodz±c± pocztê (w³±cznie z rzeczami
+otrzymanymi przez rmaila/UUCP) przez SpamAssasina - wysoko
+konfigurowalny filtr antyspamowy.
 
 %prep
 %setup -q
@@ -43,8 +52,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/spamass-milter
 rm -rf $RPM_BUILD_ROOT
 
 %post
-chkconfig --add spamass-milter
-
+/sbin/chkconfig --add spamass-milter
 if [ -f /var/lock/subsys/spamass-milter ]; then
 	/etc/rc.d/init.d/spamass-milter restart >&2
 else
@@ -64,5 +72,4 @@ fi
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_sbindir}/spamass-milter
 %attr(754,root,root) /etc/rc.d/init.d/spamass-milter
-%{_initrddir}/spamass-milter
 %{_mandir}/man1/spamass-milter.1*
