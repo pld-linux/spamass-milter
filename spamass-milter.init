@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+# spamass-milter This shell script takes care of starting and stopping
+#		spamass-milter.
+#
+# chkconfig:	345 80 30
+#
+# description:	spamass-milter is a daemon which hooks into sendmail and routes
+#		email messages to spamassassin
+
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get network config
+. /etc/sysconfig/network
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/spamass-milter ]; then
+		msg_starting spamass-milter
+		busy
+		MSG="`/usr/sbin/spamass-milter -p /var/run/spamass.sock -f 2>&1`"
+		if [ $? -eq 0 ]; then
+			ok
+			touch /var/lock/subsys/spamass-milter
+		else
+			RETVAL=1
+			fail
+			echo "$MSG"
+		fi
+	else
+		msg_already_running spamass-milter
+	fi
+	;;
+  stop)
+	# Stop daemons.
+	if [ -f /var/lock/subsys/spamass-milter ]; then
+		msg_stopping spamass-milter
+		busy
+		MSG="`killproc spamass-milter 2>&1`"
+		if [ $? -eq 0 ]; then
+			ok
+		else
+			fail
+			echo "$MSG"
+		fi
+		rm -f /var/lock/subsys/spamass-milter
+	else
+		msg_not_running spamass-milter
+	fi
+	;;
+  restart)
+	$0 stop
+	$0 start
+	exit $?
+	;;
+  status)
+	status master
+	exit $?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|status}"
+	exit 3
+esac
+
+exit $RETVAL
