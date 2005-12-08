@@ -12,9 +12,6 @@
 # Source function library
 . /etc/rc.d/init.d/functions
 
-# Get network config
-. /etc/sysconfig/network
-
 RETVAL=0
 # See how we were called.
 case "$1" in
