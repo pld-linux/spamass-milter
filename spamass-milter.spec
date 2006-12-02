@@ -1,12 +1,12 @@
 Summary:	Spamassassin Milter
 Summary(pl):	Milter dla Spamassassina
 Name:		spamass-milter
-Version:	0.3.0
-Release:	0.1
+Version:	0.3.1
+Release:	1
 License:	GPL
 Group:		System Environment/Daemons
 Source0:	http://savannah.nongnu.org/download/spamass-milt/%{name}-%{version}.tar.gz
-# Source0-md5:	ced600331a0df7609fdbdf0e6d0eb943
+# Source0-md5:	ca6bf6a9c88db74a6bfea41f499c0ba6
 Source1:	%{name}.init
 URL:		http://savannah.gnu.org/projects/spamass-milt/
 BuildRequires:	libstdc++-devel
