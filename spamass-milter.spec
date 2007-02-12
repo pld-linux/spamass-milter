@@ -1,5 +1,5 @@
 Summary:	Spamassassin Milter
-Summary(pl):	Milter dla Spamassassina
+Summary(pl.UTF-8):   Milter dla Spamassassina
 Name:		spamass-milter
 Version:	0.3.1
 Release:	1
@@ -25,9 +25,9 @@ A little plugin for the Sendmail Milter (Mail Filter) library that
 pipes all incoming mail (including things received by rmail/UUCP)
 through the SpamAssassin, a highly customizable SpamFilter.
 
-%description -l pl
-Ma³a wtyczka dla biblioteki Sendmail Milter (Mail Filter)
-przepuszczaj±ca ca³± przychodz±c± pocztê (w³±cznie z rzeczami
+%description -l pl.UTF-8
+MaÅ‚a wtyczka dla biblioteki Sendmail Milter (Mail Filter)
+przepuszczajÄ…ca caÅ‚Ä… przychodzÄ…cÄ… pocztÄ™ (wÅ‚Ä…cznie z rzeczami
 otrzymanymi przez rmaila/UUCP) przez SpamAssasina - wysoko
 konfigurowalny filtr antyspamowy.
 
