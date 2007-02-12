@@ -1,5 +1,5 @@
 Summary:	Spamassassin Milter
-Summary(pl.UTF-8):   Milter dla Spamassassina
+Summary(pl.UTF-8):	Milter dla Spamassassina
 Name:		spamass-milter
 Version:	0.3.1
 Release:	1
