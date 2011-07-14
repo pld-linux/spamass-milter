@@ -1,14 +1,15 @@
-# Path to socket
+# Path to socket (option -p)
 SPAMASS_MILTER_SOCKET="/var/lib/spamassassin/spamass-milter.socket"
 
-# Group which will own socket file (with permissions 660)
+# Group which will own socket file with permissions 660 (option -g)
 SPAMASS_MILTER_SOCKET_GROUP="postfix"
 
-# Path to pid file
+# Path to pid file (option -P)
 SPAMASS_MILTER_PIDFILE="/var/run/spamass-milter.pid"
 
-# Reject all messages with score >= X (default: 10, -1 to reject all)
+# Reject all messages with score >= X, default: 10, -1 to reject all
+# (option -r)
 SPAMASS_MILTER_REJECT_SCORE="10"
 
-# Other options (see spamass-milter --help)
-SPAMASS_MILTER_OPTIONS="-m -M"
+# Other options (run spamass-milter without options to see help)
+SPAMASS_MILTER_OPTIONS="-m"
