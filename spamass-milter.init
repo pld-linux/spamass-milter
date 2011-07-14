@@ -24,7 +24,7 @@ case "$1" in
 	if [ ! -f /var/lock/subsys/spamass-milter ]; then
 		msg_starting spamass-milter
 		busy
-		MSG="`/usr/sbin/spamass-milter -p $SPAMASS_MILTER_SOCKET -P $SPAMASS_MILTER_PIDFILE -r $SPAMASS_MILTER_REJECT_SCORE $SPAMASS_MILTER_OPTIONS -f 2>&1`"
+		MSG="`/usr/sbin/spamass-milter -p $SPAMASS_MILTER_SOCKET -g $SPAMASS_MILTER_SOCKET_GROUP -P $SPAMASS_MILTER_PIDFILE -r $SPAMASS_MILTER_REJECT_SCORE $SPAMASS_MILTER_OPTIONS -f 2>&1`"
 		if [ $? -eq 0 ]; then
 			ok
 			touch /var/lock/subsys/spamass-milter
