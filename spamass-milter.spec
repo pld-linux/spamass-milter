@@ -2,12 +2,13 @@ Summary:	Spamassassin Milter
 Summary(pl.UTF-8):	Milter dla Spamassassina
 Name:		spamass-milter
 Version:	0.3.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		System Environment/Daemons
 Source0:	http://savannah.nongnu.org/download/spamass-milt/%{name}-%{version}.tar.gz
 # Source0-md5:	ca6bf6a9c88db74a6bfea41f499c0ba6
 Source1:	%{name}.init
+Source2:	%{name}.sysconfig
 URL:		http://savannah.gnu.org/projects/spamass-milt/
 BuildRequires:	libstdc++-devel
 BuildRequires:	sendmail-devel
@@ -40,13 +41,14 @@ konfigurowalny filtr antyspamowy.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/spamass-milter
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/spamass-milter
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -72,4 +74,5 @@ fi
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_sbindir}/spamass-milter
 %attr(754,root,root) /etc/rc.d/init.d/spamass-milter
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/spamass-milter
 %{_mandir}/man1/spamass-milter.1*
