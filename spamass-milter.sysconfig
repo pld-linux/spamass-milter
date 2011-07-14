@@ -1,0 +1,11 @@
+# Path to socket
+SPAMASS_MILTER_SOCKET="/var/lib/spammassassin/spamass-milter.socket"
+
+# Path to pid file
+SPAMASS_MILTER_PIDFILE="/var/run/spamass-milter.pid"
+
+# Reject all messages with score >= X (default: 5, -1 to reject all)
+SPAMASS_MILTER_REJECT_SCORE="5"
+
+# Other options (see spamass-milter --help)
+SPAMASS_MILTER_OPTIONS="-m -M"
