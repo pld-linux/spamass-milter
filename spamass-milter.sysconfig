@@ -1,5 +1,5 @@
 # Path to socket
-SPAMASS_MILTER_SOCKET="/var/lib/spammassassin/spamass-milter.socket"
+SPAMASS_MILTER_SOCKET="/var/lib/spamassassin/spamass-milter.socket"
 
 # Path to pid file
 SPAMASS_MILTER_PIDFILE="/var/run/spamass-milter.pid"
