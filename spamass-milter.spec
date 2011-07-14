@@ -15,6 +15,7 @@ Patch2:		%{name}-rcvd.patch
 Patch3:		%{name}-bits.patch
 Patch4:		%{name}-group.patch
 Patch5:		%{name}-ipv6.patch
+Patch6:		%{name}-rejectmsg.patch
 URL:		http://savannah.gnu.org/projects/spamass-milt/
 BuildRequires:	libmilter-devel
 BuildRequires:	libstdc++-devel
@@ -46,6 +47,7 @@ konfigurowalny filtr antyspamowy.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p0
 
 %build
 %configure
