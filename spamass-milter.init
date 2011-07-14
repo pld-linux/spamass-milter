@@ -23,16 +23,9 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/spamass-milter ]; then
 		msg_starting spamass-milter
-		busy
-		MSG="`/usr/sbin/spamass-milter -p $SPAMASS_MILTER_SOCKET -g $SPAMASS_MILTER_SOCKET_GROUP -P $SPAMASS_MILTER_PIDFILE -r $SPAMASS_MILTER_REJECT_SCORE $SPAMASS_MILTER_OPTIONS -f 2>&1`"
-		if [ $? -eq 0 ]; then
-			ok
-			touch /var/lock/subsys/spamass-milter
-		else
-			RETVAL=1
-			fail
-			echo "$MSG"
-		fi
+		daemon /usr/sbin/spamass-milter -f -p $SPAMASS_MILTER_SOCKET -g $SPAMASS_MILTER_SOCKET_GROUP -P $SPAMASS_MILTER_PIDFILE -r $SPAMASS_MILTER_REJECT_SCORE $SPAMASS_MILTER_OPTIONS
+		RETVAL=$?
+                [ $RETVAL -eq 0 ] && touch /var/lock/subsys/spamass-milter
 	else
 		msg_already_running spamass-milter
 	fi
@@ -41,15 +34,8 @@ case "$1" in
 	# Stop daemons.
 	if [ -f /var/lock/subsys/spamass-milter ]; then
 		msg_stopping spamass-milter
-		busy
-		MSG="`killproc spamass-milter 2>&1`"
-		if [ $? -eq 0 ]; then
-			ok
-		else
-			fail
-			echo "$MSG"
-		fi
-		rm -f /var/lock/subsys/spamass-milter
+		killproc spamass-milter 2>&1
+		rm -f /var/lock/subsys/spamass-milter >/dev/null 2>&1
 	else
 		msg_not_running spamass-milter
 	fi
