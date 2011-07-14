@@ -10,15 +10,15 @@ Source0:	http://savannah.nongnu.org/download/spamass-milt/%{name}-%{version}.tar
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 URL:		http://savannah.gnu.org/projects/spamass-milt/
+BuildRequires:	libmilter-devel
 BuildRequires:	libstdc++-devel
-BuildRequires:	sendmail-devel
 BuildRequires:	spamassassin
 BuildRequires:	spamassassin-spamc
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	spamassassin
 # Requires sendmail to have milter support, too.
-Requires:	sendmail
+Requires:	postfix
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
