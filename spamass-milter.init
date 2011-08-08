@@ -10,7 +10,7 @@
 #
 # processname:	spamass-milter
 # config:
-# pidfile:
+# pidfile:	/var/run/spamass-milter.pid
 #
 # $Id$
 
@@ -31,15 +31,14 @@ else
 fi
 
 # Set defaults
-OPTION1=""	# Strings
-OPTION2="-q"	#
-OPTION3=	# Values
-OPTION4=5	#
+SPAMASS_MILTER_SOCKET="/var/lib/spamassassin/spamass-milter.socket"
+SPAMASS_MILTER_SOCKET_GROUP="postfix"
+SPAMASS_MILTER_PIDFILE="/var/run/spamass-milter.pid"
+SPAMASS_MILTER_REJECT_SCORE="10"
+SPAMASS_MILTER_OPTIONS="-m"
 
 # Get service config - may override defaults
 [ -f /etc/sysconfig/spamass-milter ] && . /etc/sysconfig/spamass-milter
-
-pidfile="/var/run/spamass-milter.pid"
 
 start() {
 	# Check if the service is already running?
