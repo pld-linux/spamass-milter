@@ -4,7 +4,7 @@ Name:		spamass-milter
 Version:	0.3.2
 Release:	1
 License:	GPL
-Group:		System Environment/Daemons
+Group:		Daemons
 Source0:	http://savannah.nongnu.org/download/spamass-milt/%{name}-%{version}.tar.gz
 # Source0-md5:	964b011fe7d7eddfdb6d94f4767feab8
 Source1:	%{name}.init
@@ -16,12 +16,13 @@ Patch3:		%{name}-bits.patch
 Patch4:		%{name}-group.patch
 Patch5:		%{name}-ipv6.patch
 Patch6:		%{name}-rejectmsg.patch
-URL:		http://savannah.gnu.org/projects/spamass-milt/
+URL:		https://savannah.nongnu.org/projects/spamass-milt/
 BuildRequires:	libmilter-devel
 BuildRequires:	libstdc++-devel
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	spamassassin
 BuildRequires:	spamassassin-spamc
-PreReq:		rc-scripts
+Requires:	rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	spamassassin
 # Requires sendmail to have milter support, too.
@@ -60,26 +61,20 @@ install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/spamass-milter
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/spamass-milter
+install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
+install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/spamass-milter
+cp -p %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/spamass-milter
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add spamass-milter
-if [ -f /var/lock/subsys/spamass-milter ]; then
-	/etc/rc.d/init.d/spamass-milter restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/spamass-milter start\" to start spamass-milter daemon." >&2
-fi
+%service spamass-milter restart
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/spamass-milter ]; then
-		/etc/rc.d/init.d/spamass-milter stop >&2
-	fi
+	%service spamass-milter stop
 	/sbin/chkconfig --del spamass-milter
 fi
 
