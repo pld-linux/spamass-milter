@@ -5,8 +5,8 @@
 #
 # chkconfig:	345 80 30
 #
-# description:	spamass-milter is a daemon which hooks into sendmail and routes
-#		email messages to spamassassin
+# description: spamass-milter is a daemon that hooks into sendmail and \
+#              routes email messages to spamassassin
 #
 # processname:	spamass-milter
 # config:
