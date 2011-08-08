@@ -51,7 +51,8 @@ konfigurowalny filtr antyspamowy.
 %patch6 -p0
 
 %build
-%configure
+%configure \
+	SENDMAIL=/usr/lib/sendmail
 %{__make}
 
 %install
