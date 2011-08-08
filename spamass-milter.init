@@ -7,50 +7,101 @@
 #
 # description:	spamass-milter is a daemon which hooks into sendmail and routes
 #		email messages to spamassassin
-
+#
+# processname:	spamass-milter
+# config:
+# pidfile:
+#
+# $Id$
 
 # Source function library
 . /etc/rc.d/init.d/functions
 
-# Local spamass-milter config
-test -f /etc/sysconfig/spamass-milter || exit 6
-. /etc/sysconfig/spamass-milter
+# Get network config
+. /etc/sysconfig/network
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		msg_network_down "SpamAssassin Milter"
+		exit 1
+	fi
+else
+	exit 0
+fi
+
+# Set defaults
+OPTION1=""	# Strings
+OPTION2="-q"	#
+OPTION3=	# Values
+OPTION4=5	#
+
+# Get service config - may override defaults
+[ -f /etc/sysconfig/spamass-milter ] && . /etc/sysconfig/spamass-milter
+
+pidfile="/var/run/spamass-milter.pid"
+
+start() {
+	# Check if the service is already running?
+	if [ -f /var/lock/subsys/spamass-milter ]; then
+		msg_already_running "SpamAssassin Milter"
+		return
+	fi
+
+	msg_starting "SpamAssassin Milter"
+	daemon /usr/sbin/spamass-milter -f -p $SPAMASS_MILTER_SOCKET -g $SPAMASS_MILTER_SOCKET_GROUP -P $SPAMASS_MILTER_PIDFILE -r $SPAMASS_MILTER_REJECT_SCORE $SPAMASS_MILTER_OPTIONS
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/spamass-milter
+}
+
+stop() {
+	if [ ! -f /var/lock/subsys/spamass-milter ]; then
+		msg_not_running "SpamAssassin Milter"
+		return
+	fi
+
+	# Stop daemons.
+	msg_stopping "SpamAssassin Milter"
+	killproc spamass-milter
+	rm -f /var/lock/subsys/spamass-milter
+}
+
+condrestart() {
+	if [ ! -f /var/lock/subsys/spamass-milter ]; then
+		msg_not_running "SpamAssassin Milter"
+		RETVAL=$1
+		return
+	fi
+
+	stop
+	start
+}
 
 RETVAL=0
 # See how we were called.
 case "$1" in
   start)
-	# Check if the service is already running?
-	if [ ! -f /var/lock/subsys/spamass-milter ]; then
-		msg_starting spamass-milter
-		daemon /usr/sbin/spamass-milter -f -p $SPAMASS_MILTER_SOCKET -g $SPAMASS_MILTER_SOCKET_GROUP -P $SPAMASS_MILTER_PIDFILE -r $SPAMASS_MILTER_REJECT_SCORE $SPAMASS_MILTER_OPTIONS
-		RETVAL=$?
-                [ $RETVAL -eq 0 ] && touch /var/lock/subsys/spamass-milter
-	else
-		msg_already_running spamass-milter
-	fi
+	start
 	;;
   stop)
-	# Stop daemons.
-	if [ -f /var/lock/subsys/spamass-milter ]; then
-		msg_stopping spamass-milter
-		killproc spamass-milter 2>&1
-		rm -f /var/lock/subsys/spamass-milter >/dev/null 2>&1
-	else
-		msg_not_running spamass-milter
-	fi
+	stop
 	;;
   restart)
-	$0 stop
-	$0 start
-	exit $?
+	stop
+	start
+	;;
+  try-restart)
+	condrestart 0
+	;;
+  force-reload)
+	condrestart 7
 	;;
   status)
 	status master
-	exit $?
+	RETVAL=$?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|status}"
+	msg_usage "$0 {start|stop|restart|try-restart|force-reload|status}"
 	exit 3
 esac
 
