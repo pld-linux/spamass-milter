@@ -2,7 +2,7 @@ Summary:	Spamassassin Milter
 Summary(pl.UTF-8):	Milter dla Spamassassina
 Name:		spamass-milter
 Version:	0.3.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		Daemons
 Source0:	http://savannah.nongnu.org/download/spamass-milt/%{name}-%{version}.tar.gz
