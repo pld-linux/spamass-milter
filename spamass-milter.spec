@@ -1,21 +1,16 @@
 Summary:	Spamassassin Milter
 Summary(pl.UTF-8):	Milter dla Spamassassina
 Name:		spamass-milter
-Version:	0.3.2
-Release:	2
+Version:	0.4.0
+Release:	1
 License:	GPL
 Group:		Daemons
 Source0:	http://savannah.nongnu.org/download/spamass-milt/%{name}-%{version}.tar.gz
-# Source0-md5:	964b011fe7d7eddfdb6d94f4767feab8
+# Source0-md5:	aae2624770f5cb5a8b6484afb0fe5baa
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-Patch0:		%{name}-syntax.patch
-Patch1:		%{name}-authuser.patch
-Patch2:		%{name}-rcvd.patch
-Patch3:		%{name}-bits.patch
-Patch4:		%{name}-group.patch
-Patch5:		%{name}-ipv6.patch
-Patch6:		%{name}-rejectmsg.patch
+Patch0:		%{name}-rcvd.patch
+Patch1:		%{name}-group.patch
 URL:		https://savannah.nongnu.org/projects/spamass-milt/
 BuildRequires:	libmilter-devel
 BuildRequires:	libstdc++-devel
@@ -44,11 +39,6 @@ konfigurowalny filtr antyspamowy.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p0
 
 %build
 %configure \
