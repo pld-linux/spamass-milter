@@ -20,6 +20,7 @@ BuildRequires:	spamassassin-spamc
 Requires:	rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	spamassassin
+Requires:	spamassassin-spamc
 # Requires sendmail to have milter support, too.
 Requires:	postfix
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
